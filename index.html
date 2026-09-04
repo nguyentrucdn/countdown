@@ -72,6 +72,8 @@
     .unit { color: var(--muted); font-size: 10px; margin-top: 7px; text-transform: uppercase; letter-spacing: .06em; }
     footer { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid var(--line); padding: 21px 0 27px; color: var(--muted); font-size: 12px; }
     footer strong { color: var(--ink); font-weight: 600; }
+    .visits { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .visits img { height: 20px; width: auto; }
     @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
     @media (max-width: 760px) {
       .shell { width: min(100% - 32px, 560px); }
@@ -119,7 +121,7 @@
         </article>
       </section>
 
-      <footer><span>Dates are calculated automatically.</span><span><strong id="current-date"></strong> · Vietnam / your local time</span></footer>
+      <footer><span>Dates are calculated automatically.</span><span><strong id="current-date"></strong> · Vietnam / your local time</span><span class="visits"><span>Visits</span><img src="https://visitor-badge.laobi.icu/badge?page_id=countdown-vietnam-holidays&amp;left_text=visits&amp;left_color=21332f&amp;right_color=db684f" alt="Page visit count"></span></footer>
     </div>
   </main>
   <script>
