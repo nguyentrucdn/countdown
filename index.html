@@ -67,8 +67,8 @@
     .card-label { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin: 8px 0 0; }
     .icon { font-size: 23px; line-height: 1; }
     .date { color: var(--muted); font-size: 13px; margin: auto 0 19px; }
-    .units { border-top: 1px solid var(--line); padding-top: 18px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
-    .number { font: 600 clamp(25px, 3vw, 38px)/1 Fraunces, Georgia, serif; letter-spacing: -.04em; }
+    .units { border-top: 1px solid var(--line); padding-top: 18px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; }
+    .number { font: 600 clamp(18px, 3vw, 38px)/1 Fraunces, Georgia, serif; letter-spacing: -.04em; }
     .unit { color: var(--muted); font-size: 10px; margin-top: 7px; text-transform: uppercase; letter-spacing: .06em; }
     footer { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid var(--line); padding: 21px 0 27px; color: var(--muted); font-size: 12px; }
     footer strong { color: var(--ink); font-weight: 600; }
@@ -105,17 +105,17 @@
         <article class="countdown" data-event="holiday">
           <div class="card-top"><div><h2 id="holiday-name">Next Vietnam holiday</h2><p class="card-label">Vietnam calendar</p></div><span class="icon" aria-hidden="true">✦</span></div>
           <p class="date" id="holiday-date">Finding the next date...</p>
-          <div class="units" aria-live="polite"><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
+          <div class="units" aria-live="polite"><div><div class="number" data-unit="weeks">--</div><div class="unit">Weeks</div></div><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
         </article>
         <article class="countdown" data-event="new-year">
           <div class="card-top"><div><h2>New Year</h2><p class="card-label">January 01</p></div><span class="icon" aria-hidden="true">✺</span></div>
           <p class="date" id="new-year-date"></p>
-          <div class="units" aria-live="polite"><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
+          <div class="units" aria-live="polite"><div><div class="number" data-unit="weeks">--</div><div class="unit">Weeks</div></div><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
         </article>
         <article class="countdown" data-event="lunar-new-year">
           <div class="card-top"><div><h2>Lunar New Year</h2><p class="card-label">Tet Nguyen Dan</p></div><span class="icon" aria-hidden="true">☼</span></div>
           <p class="date" id="lunar-date"></p>
-          <div class="units" aria-live="polite"><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
+          <div class="units" aria-live="polite"><div><div class="number" data-unit="weeks">--</div><div class="unit">Weeks</div></div><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
         </article>
       </section>
 
@@ -155,7 +155,8 @@
     function setCountdown(card, target) {
       const remaining = Math.max(0, target - new Date());
       const totalSeconds = Math.floor(remaining / 1000);
-      const values = { days: Math.floor(totalSeconds / 86400), hours: Math.floor(totalSeconds / 3600) % 24, minutes: Math.floor(totalSeconds / 60) % 60, seconds: totalSeconds % 60 };
+      const totalDays = Math.floor(totalSeconds / 86400);
+      const values = { weeks: Math.floor(totalDays / 7), days: totalDays % 7, hours: Math.floor(totalSeconds / 3600) % 24, minutes: Math.floor(totalSeconds / 60) % 60, seconds: totalSeconds % 60 };
       Object.entries(values).forEach(([unit, value]) => { card.querySelector(`[data-unit="${unit}"]`).textContent = pad(value); });
     }
     function render() {
