@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f1e6">
+  <title>Days Ahead | Countdown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #21332f;
+      --muted: #6e7971;
+      --paper: #f8f1e6;
+      --paper-deep: #efe3d0;
+      --leaf: #286052;
+      --leaf-light: #dfe9df;
+      --coral: #db684f;
+      --gold: #e8ae57;
+      --line: rgba(33, 51, 47, .14);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "DM Sans", sans-serif;
+      min-width: 320px;
+    }
+    .page { min-height: 100vh; overflow: hidden; position: relative; }
+    .page::before {
+      content: "";
+      position: absolute;
+      width: 42vw;
+      height: 42vw;
+      min-width: 330px;
+      min-height: 330px;
+      border-radius: 50%;
+      right: -13vw;
+      top: -16vw;
+      background: var(--gold);
+      opacity: .2;
+    }
+    .shell { width: min(1160px, calc(100% - 48px)); margin: 0 auto; position: relative; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0 60px;
+    }
+    .brand { display: flex; gap: 11px; align-items: center; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .brand-mark { width: 28px; height: 28px; border: 2px solid var(--leaf); border-radius: 50%; display: grid; place-items: center; position: relative; }
+    .brand-mark::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
+    .timezone { color: var(--muted); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+    .intro { max-width: 690px; margin-bottom: 48px; }
+    .eyebrow { color: var(--coral); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 17px; }
+    h1 { font: 700 clamp(46px, 7vw, 84px)/.96 Fraunces, Georgia, serif; letter-spacing: -.04em; margin: 0 0 22px; }
+    .intro p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0; max-width: 490px; }
+    .countdowns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 30px; }
+    .countdown { min-height: 310px; border: 1px solid var(--line); border-radius: 7px; padding: 25px 24px 22px; display: flex; flex-direction: column; background: rgba(255,255,255,.23); animation: rise .65s both; }
+    .countdown:nth-child(2) { animation-delay: .1s; background: var(--leaf-light); }
+    .countdown:nth-child(3) { animation-delay: .2s; background: #f3dfd5; }
+    .card-top { display: flex; justify-content: space-between; align-items: start; gap: 10px; }
+    .card-top h2 { font: 600 27px/1.05 Fraunces, Georgia, serif; letter-spacing: -.025em; margin: 0; }
+    .card-label { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin: 8px 0 0; }
+    .icon { font-size: 23px; line-height: 1; }
+    .date { color: var(--muted); font-size: 13px; margin: auto 0 19px; }
+    .units { border-top: 1px solid var(--line); padding-top: 18px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+    .number { font: 600 clamp(25px, 3vw, 38px)/1 Fraunces, Georgia, serif; letter-spacing: -.04em; }
+    .unit { color: var(--muted); font-size: 10px; margin-top: 7px; text-transform: uppercase; letter-spacing: .06em; }
+    footer { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid var(--line); padding: 21px 0 27px; color: var(--muted); font-size: 12px; }
+    footer strong { color: var(--ink); font-weight: 600; }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 32px, 560px); }
+      header { padding: 22px 0 52px; }
+      .timezone { display: none; }
+      .intro { margin-bottom: 35px; }
+      .intro p { font-size: 15px; }
+      .countdowns { grid-template-columns: 1fr; gap: 12px; }
+      .countdown { min-height: 245px; padding: 22px 20px 19px; }
+      .card-top h2 { font-size: 25px; }
+      .date { margin-top: 40px; }
+      footer { flex-direction: column; gap: 7px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <header>
+        <div class="brand"><span class="brand-mark" aria-hidden="true"></span> Days Ahead</div>
+        <div class="timezone" id="timezone">Your local time</div>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">A little something to look forward to</p>
+        <h1 id="page-title">Mark the moment.</h1>
+        <p>Three meaningful dates on one quiet little dashboard, counting down in your local time.</p>
+      </section>
+
+      <section class="countdowns" aria-label="Upcoming celebrations">
+        <article class="countdown" data-event="holiday">
+          <div class="card-top"><div><h2 id="holiday-name">Next Vietnam holiday</h2><p class="card-label">Vietnam calendar</p></div><span class="icon" aria-hidden="true">✦</span></div>
+          <p class="date" id="holiday-date">Finding the next date...</p>
+          <div class="units" aria-live="polite"><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
+        </article>
+        <article class="countdown" data-event="new-year">
+          <div class="card-top"><div><h2>New Year</h2><p class="card-label">January 01</p></div><span class="icon" aria-hidden="true">✺</span></div>
+          <p class="date" id="new-year-date"></p>
+          <div class="units" aria-live="polite"><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
+        </article>
+        <article class="countdown" data-event="lunar-new-year">
+          <div class="card-top"><div><h2>Lunar New Year</h2><p class="card-label">Tet Nguyen Dan</p></div><span class="icon" aria-hidden="true">☼</span></div>
+          <p class="date" id="lunar-date"></p>
+          <div class="units" aria-live="polite"><div><div class="number" data-unit="days">--</div><div class="unit">Days</div></div><div><div class="number" data-unit="hours">--</div><div class="unit">Hours</div></div><div><div class="number" data-unit="minutes">--</div><div class="unit">Minutes</div></div><div><div class="number" data-unit="seconds">--</div><div class="unit">Seconds</div></div></div>
+        </article>
+      </section>
+
+      <footer><span>Dates are calculated automatically.</span><span><strong id="current-date"></strong> · Vietnam / your local time</span></footer>
+    </div>
+  </main>
+  <script>
+    const vietnamHolidays = [
+      { month: 0, day: 1, name: "International New Year's Day" },
+      { month: 3, day: 30, name: "Reunification Day" },
+      { month: 4, day: 1, name: "International Labor Day" },
+      { month: 8, day: 2, name: "National Day" }
+    ];
+    const lunarNewYears = { 2026: [1, 17], 2027: [1, 6], 2028: [0, 26], 2029: [1, 13], 2030: [1, 3], 2031: [0, 23], 2032: [1, 11] };
+    const pad = value => String(value).padStart(2, "0");
+    const dateFormat = new Intl.DateTimeFormat(undefined, { month: "long", day: "numeric", year: "numeric" });
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    function nextFixedDate(month, day, now) {
+      const candidate = new Date(now.getFullYear(), month, day, 0, 0, 0);
+      return candidate > now ? candidate : new Date(now.getFullYear() + 1, month, day, 0, 0, 0);
+    }
+    function nextHoliday(now) {
+      const candidates = vietnamHolidays.map(holiday => ({ ...holiday, date: nextFixedDate(holiday.month, holiday.day, now) }));
+      return candidates.sort((a, b) => a.date - b.date)[0];
+    }
+    function nextLunarNewYear(now) {
+      const years = Object.keys(lunarNewYears).map(Number).filter(year => year >= now.getFullYear());
+      for (const year of years.sort((a, b) => a - b)) {
+        const [month, day] = lunarNewYears[year];
+        const date = new Date(year, month, day);
+        if (date > now) return date;
+      }
+      return new Date(now.getFullYear() + 1, 1, 1);
+    }
+    function setCountdown(card, target) {
+      const remaining = Math.max(0, target - new Date());
+      const totalSeconds = Math.floor(remaining / 1000);
+      const values = { days: Math.floor(totalSeconds / 86400), hours: Math.floor(totalSeconds / 3600) % 24, minutes: Math.floor(totalSeconds / 60) % 60, seconds: totalSeconds % 60 };
+      Object.entries(values).forEach(([unit, value]) => { card.querySelector(`[data-unit="${unit}"]`).textContent = pad(value); });
+    }
+    function render() {
+      const now = new Date();
+      const holiday = nextHoliday(now);
+      const newYear = nextFixedDate(0, 1, now);
+      const lunar = nextLunarNewYear(now);
+      document.getElementById("holiday-name").textContent = holiday.name;
+      document.getElementById("holiday-date").textContent = dateFormat.format(holiday.date);
+      document.getElementById("new-year-date").textContent = dateFormat.format(newYear);
+      document.getElementById("lunar-date").textContent = dateFormat.format(lunar);
+      document.getElementById("current-date").textContent = dateFormat.format(now);
+      document.getElementById("timezone").textContent = timeZone.replaceAll("_", " ");
+      setCountdown(document.querySelector('[data-event="holiday"]'), holiday.date);
+      setCountdown(document.querySelector('[data-event="new-year"]'), newYear);
+      setCountdown(document.querySelector('[data-event="lunar-new-year"]'), lunar);
+    }
+    render();
+    setInterval(render, 1000);
+  </script>
+</body>
+</html>
